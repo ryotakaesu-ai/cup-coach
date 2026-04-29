@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2d1b4e">
+<title>初陣 — 5/17 Cup Coach</title>
+<style>
+:root {
+  --cream: #faf6ef;
+  --paper: #ffffff;
+  --ink: #1a1a1a;
+  --subtext: #5a5247;
+  --muted: #9a8e7c;
+  --purple: #2d1b4e;
+  --purple-light: #4a3270;
+  --gold: #b8893a;
+  --gold-soft: #d4a857;
+  --rose: #8b3a3a;
+  --green: #4a7a3a;
+  --border: #e8dfd0;
+  --shadow: 0 2px 16px rgba(45,27,78,0.06);
+  --shadow-strong: 0 4px 24px rgba(45,27,78,0.12);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { font-size: 16px; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+h1, h2, h3 { font-family: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif; font-weight: 600; letter-spacing: 0.02em; }
+.serif { font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; border: none; background: none; }
+a { color: var(--purple); }
+
+/* ============= HEADER ============= */
+header {
+  background: linear-gradient(180deg, var(--purple) 0%, #1f1336 100%);
+  color: var(--cream);
+  padding: 32px 20px 36px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+header::before {
+  content: ''; position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  width: 40px; height: 1px; background: var(--gold);
+}
+.eyebrow { font-size: 11px; letter-spacing: 0.4em; opacity: 0.7; text-transform: uppercase; margin-top: 12px; }
+.title-jp { font-size: 22px; margin-top: 6px; letter-spacing: 0.15em; }
+.countdown {
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+  font-size: 84px; line-height: 1; color: var(--gold-soft); margin-top: 18px; font-weight: 300;
+  letter-spacing: -0.02em;
+}
+.countdown-unit { font-size: 24px; color: var(--cream); margin-left: 4px; opacity: 0.85; }
+.countdown-label { font-size: 12px; letter-spacing: 0.3em; opacity: 0.7; margin-top: 4px; }
+.match-meta { display: flex; justify-content: center; gap: 28px; margin-top: 22px; font-size: 12px; flex-wrap: wrap; }
+.match-meta div { opacity: 0.85; }
+.match-meta strong { display: block; font-family: serif; font-size: 18px; color: var(--gold-soft); margin-bottom: 2px; font-weight: 400; }
+
+/* ============= MAIN ============= */
+main { max-width: 760px; margin: 0 auto; padding: 0 16px 100px; }
+.card {
+  background: var(--paper);
+  border-radius: 10px;
+  padding: 22px;
+  margin-top: 16px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+.card-eyebrow { font-size: 10px; letter-spacing: 0.3em; color: var(--gold); text-transform: uppercase; margin-bottom: 6px; }
+.card-h { font-size: 20px; color: var(--purple); margin-bottom: 16px; }
+.section-divider { display: flex; align-items: center; margin: 32px 0 8px; gap: 12px; }
+.section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.section-divider span { font-size: 11px; letter-spacing: 0.3em; color: var(--muted); text-transform: uppercase; }
+
+/* ============= TODAY (PHASE) ============= */
+.phase-card { background: linear-gradient(135deg, var(--paper) 0%, #fdfaf3 100%); border-left: 3px solid var(--gold); }
+.phase-name { font-size: 18px; color: var(--purple); font-family: serif; margin-bottom: 8px; }
+.phase-focus { font-size: 14px; color: var(--subtext); line-height: 1.7; }
+.phase-progress { display: flex; gap: 4px; margin-top: 14px; }
+.phase-bar { flex: 1; height: 4px; background: var(--border); border-radius: 2px; }
+.phase-bar.active { background: var(--gold); }
+.phase-bar.done { background: var(--purple-light); }
+.phase-labels { display: flex; gap: 4px; margin-top: 6px; font-size: 10px; color: var(--muted); letter-spacing: 0.1em; }
+.phase-labels div { flex: 1; text-align: center; }
+
+/* ============= DRILLS ============= */
+.drill-summary { display: flex; gap: 12px; margin-bottom: 16px; padding: 12px; background: var(--cream); border-radius: 6px; align-items: center; justify-content: space-between; }
+.drill-summary-num { font-family: serif; font-size: 28px; color: var(--purple); }
+.drill-summary-label { font-size: 11px; color: var(--muted); letter-spacing: 0.15em; }
+.drill-row {
+  display: flex; align-items: center; padding: 14px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.drill-row:last-child { border-bottom: none; }
+.drill-info { flex: 1; min-width: 0; }
+.drill-name { font-size: 14px; font-weight: 500; line-height: 1.4; }
+.drill-note { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.drill-count {
+  font-family: serif; font-size: 24px; color: var(--purple);
+  min-width: 70px; text-align: right; line-height: 1;
+}
+.drill-count .target { font-size: 12px; color: var(--muted); }
+.drill-count.done { color: var(--green); }
+.drill-actions { display: flex; gap: 6px; margin-left: 10px; }
+.drill-btn {
+  background: var(--gold); color: white; padding: 8px 12px;
+  border-radius: 4px; font-weight: 600; font-size: 13px;
+  transition: transform 0.1s;
+}
+.drill-btn:active { transform: scale(0.92); }
+.drill-btn.minus { background: var(--cream); color: var(--subtext); border: 1px solid var(--border); padding: 8px 10px; }
+
+/* ============= WEIGHT ============= */
+.weight-now { display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px; }
+.weight-num { font-family: serif; font-size: 44px; color: var(--purple); line-height: 1; }
+.weight-unit { font-size: 14px; color: var(--muted); }
+.weight-target { font-size: 12px; color: var(--subtext); margin-top: 4px; }
+.weight-delta { font-size: 13px; padding: 4px 10px; border-radius: 12px; background: var(--cream); color: var(--subtext); display: inline-block; }
+.weight-delta.over { color: var(--rose); background: #fdeeee; }
+.weight-delta.ok { color: var(--green); background: #eef5ea; }
+.weight-input { display: flex; gap: 8px; margin: 12px 0; align-items: center; }
+.weight-input input { flex: 1; max-width: 120px; padding: 10px; border: 1px solid var(--border); border-radius: 4px; background: var(--cream); font-size: 16px; }
+.weight-chart { width: 100%; height: 140px; margin-top: 12px; }
+.weight-history { font-size: 12px; color: var(--muted); margin-top: 8px; max-height: 120px; overflow-y: auto; }
+.weight-history div { padding: 4px 0; border-top: 1px dotted var(--border); }
+.weight-history div:first-child { border-top: none; }
+
+/* ============= PRACTICE LOG ============= */
+.practice-form { display: flex; flex-direction: column; gap: 10px; }
+.form-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.form-row label { font-size: 11px; color: var(--muted); letter-spacing: 0.1em; min-width: 50px; }
+.form-row select, .form-row input[type=text], .form-row input[type=date] {
+  padding: 8px 10px; border: 1px solid var(--border); border-radius: 4px; background: var(--cream); flex: 1; min-width: 0;
+}
+.form-row input[type=date] { max-width: 160px; }
+.form-row textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; background: var(--cream); resize: vertical; min-height: 60px; }
+.fatigue-row { display: flex; gap: 6px; }
+.fatigue-btn {
+  flex: 1; padding: 8px 4px; border: 1px solid var(--border); background: var(--cream);
+  border-radius: 4px; font-size: 12px; color: var(--subtext);
+}
+.fatigue-btn.active { background: var(--purple); color: white; border-color: var(--purple); }
+.fatigue-btn[data-level="3"].active, .fatigue-btn[data-level="4"].active { background: var(--rose); border-color: var(--rose); }
+.btn-primary { background: var(--purple); color: white; padding: 12px 20px; border-radius: 4px; font-weight: 600; font-size: 14px; }
+.btn-secondary { background: white; color: var(--purple); border: 1px solid var(--purple); padding: 8px 16px; border-radius: 4px; font-size: 13px; }
+.btn-danger { background: white; color: var(--rose); border: 1px solid var(--rose); padding: 6px 12px; border-radius: 4px; font-size: 12px; }
+.practice-list { margin-top: 16px; }
+.practice-item {
+  padding: 12px; border-radius: 6px; background: var(--cream);
+  margin-top: 8px; font-size: 13px;
+}
+.practice-item-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.practice-date { font-family: serif; color: var(--purple); font-size: 14px; }
+.practice-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
+.tag { display: inline-block; padding: 2px 8px; background: var(--paper); border: 1px solid var(--border); border-radius: 12px; font-size: 11px; color: var(--purple); }
+.tag.gym { color: var(--gold); border-color: var(--gold); }
+.tag.fatigue-1 { color: var(--green); border-color: var(--green); }
+.tag.fatigue-2 { color: var(--gold); border-color: var(--gold); }
+.tag.fatigue-3, .tag.fatigue-4 { color: var(--rose); border-color: var(--rose); }
+.practice-text { color: var(--subtext); white-space: pre-wrap; word-break: break-word; }
+
+/* ============= ALERTS ============= */
+.alert {
+  padding: 14px 16px; border-radius: 6px; font-size: 13px; line-height: 1.6;
+  margin: 12px 0; border-left: 3px solid var(--gold); background: #fff8e8;
+}
+.alert.warn { border-left-color: var(--rose); background: #fdeeee; color: #6a2828; }
+.alert.success { border-left-color: var(--green); background: #eef5ea; color: #2d4a20; }
+.alert strong { display: block; margin-bottom: 4px; }
+
+/* ============= MATCH PLAN ============= */
+.plan-tabs { display: flex; gap: 4px; margin-bottom: 14px; border-bottom: 1px solid var(--border); }
+.plan-tab {
+  padding: 10px 14px; font-size: 13px; color: var(--muted); border-bottom: 2px solid transparent;
+  font-weight: 500; flex: 1;
+}
+.plan-tab.active { color: var(--purple); border-bottom-color: var(--gold); }
+.plan-content { display: none; }
+.plan-content.active { display: block; }
+.timeline {
+  background: var(--cream); padding: 14px; border-radius: 6px;
+  font-family: "SF Mono", "Menlo", monospace; font-size: 12px; line-height: 1.9;
+  white-space: pre-wrap; overflow-x: auto; color: var(--subtext);
+}
+.plan-h { font-family: serif; color: var(--purple); margin: 16px 0 8px; font-size: 15px; }
+.plan-list li { margin: 6px 0 6px 18px; font-size: 13px; color: var(--subtext); }
+.opp-card {
+  display: flex; gap: 14px; padding: 14px; background: var(--cream);
+  border-radius: 6px; margin-bottom: 12px;
+}
+.opp-avatar {
+  width: 56px; height: 56px; border-radius: 50%; background: var(--purple);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold-soft); font-family: serif; font-size: 22px; flex-shrink: 0;
+}
+.opp-info h4 { font-family: serif; font-size: 15px; color: var(--purple); margin-bottom: 2px; }
+.opp-info p { font-size: 12px; color: var(--subtext); }
+
+/* ============= INJURY GUARD ============= */
+.guard-checklist label {
+  display: flex; align-items: flex-start; gap: 10px; padding: 8px 0;
+  font-size: 13px; color: var(--subtext); cursor: pointer;
+}
+.guard-checklist input[type=checkbox] { margin-top: 4px; accent-color: var(--purple); width: 18px; height: 18px; }
+
+/* ============= FOOTER ============= */
+.footer { text-align: center; padding: 24px 16px; color: var(--muted); font-size: 11px; letter-spacing: 0.15em; }
+.footer button { color: var(--muted); text-decoration: underline; padding: 0 8px; }
+
+/* ============= UTIL ============= */
+.row { display: flex; gap: 8px; align-items: center; }
+.row-between { justify-content: space-between; }
+.gap-1 { gap: 12px; }
+.mt-1 { margin-top: 12px; }
+.text-muted { color: var(--muted); font-size: 12px; }
+.hidden { display: none !important; }
+
+@media (min-width: 720px) {
+  main { padding: 0 32px 100px; }
+  .card { padding: 28px; }
+  .countdown { font-size: 96px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">PANCRASE JIU-JITSU CUP 2026 EAST</div>
+  <div class="title-jp">初 陣</div>
+  <div class="countdown">
+    <span id="cd-days">--</span><span class="countdown-unit">日</span>
+  </div>
+  <div class="countdown-label" id="cd-label">残り</div>
+  <div class="match-meta">
+    <div><strong id="m-date">5/17</strong>試合日</div>
+    <div><strong id="m-weight">--</strong>現体重</div>
+    <div><strong id="m-cut">--</strong>残り減量</div>
+  </div>
+</header>
+
+<main>
+
+<!-- ===== TODAY / PHASE ===== -->
+<div class="card phase-card">
+  <div class="card-eyebrow">Today's Phase</div>
+  <div class="phase-name" id="phase-name">--</div>
+  <div class="phase-focus" id="phase-focus">--</div>
+  <div class="phase-progress">
+    <div class="phase-bar" data-week="1"></div>
+    <div class="phase-bar" data-week="2"></div>
+    <div class="phase-bar" data-week="3"></div>
+    <div class="phase-bar" data-week="4"></div>
+  </div>
+  <div class="phase-labels">
+    <div>Week1<br>絞り込み</div>
+    <div>Week2<br>想定スパー</div>
+    <div>Week3<br>固定化</div>
+    <div>Week4<br>ピーキング</div>
+  </div>
+  <div id="phase-alert"></div>
+</div>
+
+<!-- ===== DRILL COUNTER ===== -->
+<div class="card">
+  <div class="card-eyebrow">Drill Counter</div>
+  <h2 class="card-h">今日の勝ちパターン・ドリル</h2>
+  <div class="drill-summary">
+    <div>
+      <div class="drill-summary-num"><span id="drill-total">0</span> / <span id="drill-target-total">60</span></div>
+      <div class="drill-summary-label">本数（今日）</div>
+    </div>
+    <button class="btn-secondary" id="drill-reset-today">今日リセット</button>
+  </div>
+  <div id="drill-list"></div>
+  <div class="text-muted mt-1">タップ＝＋1。長押し相当はー1ボタン。3パターン（三角ABC・グラビティ・スイープ防御）が中核。</div>
+</div>
+
+<!-- ===== WEIGHT ===== -->
+<div class="card">
+  <div class="card-eyebrow">Weight Cut</div>
+  <h2 class="card-h">減量トラッカー</h2>
+  <div class="weight-now">
+    <div>
+      <div class="weight-num"><span id="w-current">--</span><span class="weight-unit">kg</span></div>
+      <div class="weight-target">目標 68.2kg / 試合日まで <span id="w-perday">--</span></div>
+    </div>
+    <div id="w-delta-tag" class="weight-delta">--</div>
+  </div>
+  <div class="weight-input">
+    <input type="number" id="w-input" step="0.1" placeholder="今日の体重" inputmode="decimal">
+    <button class="btn-primary" id="w-save">記録</button>
+  </div>
+  <canvas class="weight-chart" id="w-chart"></canvas>
+  <div class="weight-history" id="w-history"></div>
+</div>
+
+<!-- ===== INJURY GUARD ===== -->
+<div class="card">
+  <div class="card-eyebrow">Injury Guard</div>
+  <h2 class="card-h">直前ケガ回避</h2>
+  <div id="guard-alert"></div>
+  <div class="guard-checklist" id="guard-list"></div>
+</div>
+
+<!-- ===== PRACTICE LOG ===== -->
+<div class="card">
+  <div class="card-eyebrow">Practice Log</div>
+  <h2 class="card-h">今日の練習を記録</h2>
+  <div class="practice-form">
+    <div class="form-row">
+      <label>日付</label>
+      <input type="date" id="p-date">
+    </div>
+    <div class="form-row">
+      <label>道場</label>
+      <select id="p-gym">
+        <option>大島（トライフォース）</option>
+        <option>五反田（トライフォース）</option>
+        <option>プライベート（石毛先生）</option>
+        <option>セミナー</option>
+        <option>ウエイト/ラン</option>
+        <option>その他</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label>クラス</label>
+      <select id="p-class">
+        <option>ベーシック</option>
+        <option>入門</option>
+        <option>ノーギ</option>
+        <option>オープンマット</option>
+        <option>プライベート</option>
+        <option>休養</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label>疲労</label>
+      <div class="fatigue-row" id="p-fatigue">
+        <button class="fatigue-btn" data-level="1">1<br>軽</button>
+        <button class="fatigue-btn" data-level="2">2<br>中</button>
+        <button class="fatigue-btn" data-level="3">3<br>重</button>
+        <button class="fatigue-btn" data-level="4">4<br>限界</button>
+      </div>
+    </div>
+    <textarea id="p-tech" placeholder="習った技 / 効いた技 / 食らった技&#10;例: 三角→腕十字、グラビティで圧抜けた、デラヒーバ捕まりトレアナで抜けた"></textarea>
+    <textarea id="p-spar" placeholder="スパーリング相手と結果&#10;例: 吉岡さん（青）三角→腕十字一本、平井さん（白）引き分け" style="min-height: 50px;"></textarea>
+    <div class="form-row">
+      <button class="btn-primary" id="p-save">この練習を記録</button>
+    </div>
+  </div>
+  <div class="practice-list" id="p-list"></div>
+</div>
+
+<!-- ===== MATCH PLAN ===== -->
+<div class="card">
+  <div class="card-eyebrow">Match Plan</div>
+  <h2 class="card-h">対戦相手 & 試合プラン</h2>
+  <div class="opp-card">
+    <div class="opp-avatar">対</div>
+    <div class="opp-info">
+      <h4>対戦相手</h4>
+      <p>マスター3 白帯フェザー / 同階級1名のみ・決勝戦<br>
+      → 公式戦記録なし＝競技経験ほぼ無し。TF系所属＝ガード主体の可能性高</p>
+    </div>
+  </div>
+  <div class="alert">
+    <strong>勝負は最初の10秒のグリップファイト</strong>
+    両者引き込み合戦になる確率が高い → 先にグリップ取った方が圧倒的有利。開始合図から能動的に動いて試合を支配する。
+  </div>
+
+  <div class="plan-tabs">
+    <button class="plan-tab active" data-tab="planA">プランA 引き込み</button>
+    <button class="plan-tab" data-tab="planB">プランB パス</button>
+    <button class="plan-tab" data-tab="rules">ルール</button>
+  </div>
+
+  <div class="plan-content active" data-tab="planA">
+    <div class="plan-h">タイムライン（5分1本・先生指示）</div>
+    <div class="timeline">0:00-0:15  軽くグリップファイト → 即引き込み
+0:15-0:30  クローズドへ、襟・袖グリップ確保
+0:30-2:00  三角絞めセットアップ
+            ├ 決まる → 一本勝ち
+            └ 防がれる → 腕十字へ移行
+2:00-3:30  腕十字セットアップ
+            ├ 決まる → 一本勝ち
+            └ 防がれる → オモプラータ or スイープ
+3:30-5:00  スイープで2点取り → トップキープ
+
+理想: 3分以内にサブで決める
+最低: スイープ2点取って勝つ</div>
+    <div class="plan-h">三角→腕十字→オモプラ ABC連携</div>
+    <ul class="plan-list">
+      <li>クロス襟＋袖の両グリップ。腰を密着</li>
+      <li>相手の片腕を脚の間に入れさせる → クロス襟引き＋袖引きで前崩し</li>
+      <li>三角防がれた → 抱えてる側と反対の腕を抜いて腕十字</li>
+      <li>腕十字の腕が戻ってきた → そのまま肩に足かけてオモプラ</li>
+      <li>「三角防御の腕 = 腕十字の的」を脳に刻む</li>
+    </ul>
+  </div>
+
+  <div class="plan-content" data-tab="planB">
+    <div class="plan-h">相手に先に引き込まれた時</div>
+    <div class="timeline">0:00-0:30  スタンド・グリップファイト
+0:30-1:30  トレアナ or ニースライス試行
+            ├ 通る → パス3点
+            └ 1分通らなければ → グラビティへ
+1:30-3:30  グラビティ位置で削る
+            └ 途中でパス成立 → +3点
+3:30-5:00  キープ or ニーオン(+2) / マウント(+4)</div>
+    <div class="plan-h">パス3択（脳内から消す3択以外）</div>
+    <ul class="plan-list">
+      <li><strong>クローズド</strong> → 立ち上がってStandup Pass</li>
+      <li><strong>オープン（DLR/ラッソー/蜘蛛）</strong> → トレアナ</li>
+      <li><strong>既に膝が内側</strong> → ニースライス（アンダーフック先取り）</li>
+    </ul>
+    <div class="plan-h">グラビティの落とし穴</div>
+    <ul class="plan-list">
+      <li>圧が抜ける（胸骨を相手に刺す）</li>
+      <li>手で制圧しようとする（手は補助、体重と位置取りが本体）</li>
+      <li>足を無理に突破（足は無視して上半身制圧）</li>
+      <li>相手が苦しがった瞬間に緩める（むしろ強める）</li>
+    </ul>
+  </div>
+
+  <div class="plan-content" data-tab="rules">
+    <div class="plan-h">JBJJF 白帯マスター3</div>
+    <ul class="plan-list">
+      <li>5分1本・引き込みポイントなし</li>
+      <li>足関節は原則禁止（ストレートアンクルロックのみ可）</li>
+      <li>パス3点 / マウント4点 / バック4点 / ニーオン2点 / 横四方0点</li>
+      <li>横四方で止まると追加点ゼロ → 必ず次の位置へ</li>
+      <li>ストーリング（攻撃意思なき抑え込み）にペナルティ。攻撃意思を見せ続ける</li>
+    </ul>
+    <div class="plan-h">ラスト2分の鉄則</div>
+    <ul class="plan-list">
+      <li>新しい動きをしない（取った位置で時計を見る）</li>
+      <li>相手のリカバリーだけ防ぐ</li>
+      <li>残り30秒で相手が無理に動いたら、ニーオンで追加点判断</li>
+      <li>レフェリーの声かけで時間把握（時計見すぎると集中切れる）</li>
+    </ul>
+    <div class="plan-h">減量・計量</div>
+    <ul class="plan-list">
+      <li>JBJJFは試合直前計量・Gi込み70.0kg（フェザー）</li>
+      <li>計量日前夜から水抜き開始</li>
+      <li>糖質を夕食だけカット、タンパク質1.6g/kg維持</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== SETTINGS ===== -->
+<div class="card">
+  <div class="card-eyebrow">Data</div>
+  <h2 class="card-h">データ管理</h2>
+  <div class="row gap-1">
+    <button class="btn-secondary" id="export-btn">JSON書き出し</button>
+    <button class="btn-secondary" id="import-btn">読み込み</button>
+    <button class="btn-danger" id="reset-btn">全リセット</button>
+  </div>
+  <input type="file" id="import-file" accept="application/json" class="hidden">
+  <div class="text-muted mt-1">データはこの端末のブラウザ内のみに保存されます（iPhone/Macで別データ）。バックアップはJSONで定期的に。</div>
+</div>
+
+</main>
+
+<div class="footer">
+  初陣 — 5/17 CUP COACH<br>
+  覚悟100%、機嫌よく、ゆっくり深く。
+</div>
+
+<script>
+// ============= CONFIG =============
+const STORAGE_KEY = 'shojin-cup-coach-v1';
+const MATCH_DATE = '2026-05-17';
+const TARGET_WEIGHT = 68.2;
+const START_WEIGHT = 71.0;
+
+const DRILLS = [
+  { id: 'triangle', name: '三角→腕十字→オモプラ ABC', target: 10, note: 'クローズドからの白帯最強3連' },
+  { id: 'gravity', name: 'グラビティパス位置取り', target: 10, note: '胸骨刺し・上半身制圧の反復' },
+  { id: 'kneeSlice', name: 'ニースライス（コンバットベース）', target: 10, note: 'アンダーフック先取り、膝は斜め' },
+  { id: 'toreana', name: 'トレアナ（オープンガード抜き）', target: 10, note: '両ズボン掴んで投げ流す' },
+  { id: 'sweepDef', name: '4大スイープ防御（シザー/フラワー/DLR/ラッソー）', target: 10, note: '各5本程度。崩しの段階で止める' },
+  { id: 'bridgeRoll', name: 'ブリッジ＆ロール返し', target: 10, note: 'サイドキープ中の強引抵抗対応' }
+];
+
+const PHASES = [
+  {
+    name: 'Week 1 ── 勝ちパターン絞り込み',
+    start: '2026-04-23', end: '2026-04-29',
+    focus: '3パターンを毎回ドリル。下縛りスパー3分×5本、パスされたらリセット。新技は入れない。'
+  },
+  {
+    name: 'Week 2 ── 試合想定スパー',
+    start: '2026-04-30', end: '2026-05-06',
+    focus: '5分フルスパー×3本/日、必ず引き込みから。シナリオ別（残1分0-0 / 2点リード残30秒 / 2点ビハインド残1分）。亀防御→脇差し復帰。'
+  },
+  {
+    name: 'Week 3 ── 技の固定化',
+    start: '2026-05-07', end: '2026-05-13',
+    focus: '強度80% / 量70%。新技は一切入れない。3パターンの反復のみ。ウエイトは重量維持で量カット、ランは軽め。'
+  },
+  {
+    name: 'Week 4 ── ピーキング',
+    start: '2026-05-14', end: '2026-05-17',
+    focus: '量↓・強度維持。信頼できる相手のみ・足関節ナシ・暴れない人選。新技ゼロ。5/16完全休養 → 5/17試合当日。'
+  }
+];
+
+const GUARD_ITEMS = [
+  '疲労3以上のときはスタンディングスパーを避け、シッティングから始める（突き指予防）',
+  'スパー相手は指名制。暴れる人・リーピング癖ある人は避ける',
+  '足関節は一切使わない・受けない',
+  '疲れたら即タップ（意地を張らない）',
+  '5/15以降は新しい技を試さない（失敗＝ケガ）',
+  '計量前夜から水抜き、塩分・水分コントロール',
+  '前日（5/16）は完全休養 or 軽動作のみ'
+];
+
+// ============= STATE =============
+let state = {
+  drillCounts: {},      // { 'YYYY-MM-DD': { triangle: 5, gravity: 3, ... } }
+  practiceLogs: [],     // [{ id, date, gym, classType, fatigue, tech, spar }]
+  weightLogs: [],       // [{ date, weight }]
+  guardChecks: {}       // { 'YYYY-MM-DD': { 0: true, 1: false, ... } }
+};
+
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) state = Object.assign(state, JSON.parse(raw));
+  } catch (e) { console.warn('load failed', e); }
+}
+function save() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+// ============= UTILS =============
+function todayStr() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function dayDiff(a, b) {
+  const d1 = new Date(a + 'T00:00:00');
+  const d2 = new Date(b + 'T00:00:00');
+  return Math.round((d2 - d1) / 86400000);
+}
+function fmtDate(s) {
+  const d = new Date(s + 'T00:00:00');
+  const wd = ['日','月','火','水','木','金','土'][d.getDay()];
+  return `${d.getMonth()+1}/${d.getDate()}(${wd})`;
+}
+
+// ============= COUNTDOWN =============
+function renderCountdown() {
+  const days = dayDiff(todayStr(), MATCH_DATE);
+  document.getElementById('cd-days').textContent = days >= 0 ? days : '終';
+  document.getElementById('cd-label').textContent =
+    days > 0 ? `残り日数 ／ 試合日 ${MATCH_DATE.replace(/-/g, '.')}（日）` :
+    days === 0 ? '本日 試合当日' : '試合終了';
+  document.getElementById('m-date').textContent = '5/17';
+
+  // weight summary
+  const last = state.weightLogs[state.weightLogs.length-1];
+  const cw = last ? last.weight : null;
+  document.getElementById('m-weight').textContent = cw ? cw.toFixed(1)+'kg' : '未記録';
+  if (cw && days > 0) {
+    const cut = Math.max(0, cw - TARGET_WEIGHT);
+    document.getElementById('m-cut').textContent = '-' + cut.toFixed(1) + 'kg';
+  } else {
+    document.getElementById('m-cut').textContent = '--';
+  }
+}
+
+// ============= PHASE =============
+function currentPhase() {
+  const today = todayStr();
+  for (let i = 0; i < PHASES.length; i++) {
+    if (today >= PHASES[i].start && today <= PHASES[i].end) return { idx: i, ...PHASES[i] };
+  }
+  if (today < PHASES[0].start) return { idx: -1, name: '開始前', focus: '4/23から始動' };
+  return { idx: 4, name: '試合終了 / 振り返り期', focus: 'お疲れ様。次の目標へ。' };
+}
+function renderPhase() {
+  const p = currentPhase();
+  document.getElementById('phase-name').textContent = p.name;
+  document.getElementById('phase-focus').textContent = p.focus;
+  document.querySelectorAll('.phase-bar').forEach(el => {
+    const w = parseInt(el.dataset.week);
+    el.classList.remove('active', 'done');
+    if (w - 1 < p.idx) el.classList.add('done');
+    else if (w - 1 === p.idx) el.classList.add('active');
+  });
+
+  // alert by phase
+  const alertEl = document.getElementById('phase-alert');
+  const days = dayDiff(todayStr(), MATCH_DATE);
+  let alertHTML = '';
+  if (days <= 3 && days >= 0) {
+    alertHTML = `<div class="alert warn"><strong>直前期（残り${days}日）</strong>新技ゼロ。信頼できる相手のみ。足関節は受けない・かけない。疲れたら即タップ。</div>`;
+  } else if (days <= 7) {
+    alertHTML = `<div class="alert"><strong>固定化フェーズ</strong>強度80% / 量70%。3パターン反復のみ。怪我リスクを徹底回避。</div>`;
+  } else if (days <= 14) {
+    alertHTML = `<div class="alert"><strong>試合想定スパー期</strong>必ず引き込みからスタート。シナリオ別の練習を毎回1セット。</div>`;
+  } else {
+    alertHTML = `<div class="alert"><strong>絞り込みフェーズ</strong>3パターンを毎回ドリリング。下縛りスパーでパスされる原因を特定（膝/距離/グリップ）。</div>`;
+  }
+  alertEl.innerHTML = alertHTML;
+}
+
+// ============= DRILLS =============
+function getTodayDrills() {
+  const t = todayStr();
+  if (!state.drillCounts[t]) state.drillCounts[t] = {};
+  return state.drillCounts[t];
+}
+function renderDrills() {
+  const d = getTodayDrills();
+  const list = document.getElementById('drill-list');
+  let total = 0, totalTarget = 0;
+  list.innerHTML = DRILLS.map(drill => {
+    const count = d[drill.id] || 0;
+    total += count;
+    totalTarget += drill.target;
+    const done = count >= drill.target;
+    return `
+      <div class="drill-row">
+        <div class="drill-info">
+          <div class="drill-name">${drill.name}</div>
+          <div class="drill-note">${drill.note}</div>
+        </div>
+        <div class="drill-count ${done ? 'done' : ''}">${count}<span class="target">/${drill.target}</span></div>
+        <div class="drill-actions">
+          <button class="drill-btn minus" data-id="${drill.id}" data-delta="-1">−</button>
+          <button class="drill-btn" data-id="${drill.id}" data-delta="1">＋1</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('drill-total').textContent = total;
+  document.getElementById('drill-target-total').textContent = totalTarget;
+
+  list.querySelectorAll('.drill-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const d = getTodayDrills();
+      const id = btn.dataset.id;
+      const delta = parseInt(btn.dataset.delta);
+      d[id] = Math.max(0, (d[id] || 0) + delta);
+      save();
+      renderDrills();
+    });
+  });
+}
+document.getElementById('drill-reset-today').addEventListener('click', () => {
+  if (!confirm('今日のドリル本数をリセットしますか？')) return;
+  state.drillCounts[todayStr()] = {};
+  save();
+  renderDrills();
+});
+
+// ============= WEIGHT =============
+function renderWeight() {
+  const logs = state.weightLogs.slice().sort((a,b) => a.date.localeCompare(b.date));
+  const last = logs[logs.length-1];
+  const cw = last ? last.weight : null;
+  document.getElementById('w-current').textContent = cw ? cw.toFixed(1) : '--';
+
+  const days = dayDiff(todayStr(), MATCH_DATE);
+  if (cw && days > 0) {
+    const need = cw - TARGET_WEIGHT;
+    const perDay = need / days;
+    document.getElementById('w-perday').textContent = need > 0 ? `1日 -${(perDay*1000).toFixed(0)}g` : '達成済み';
+    const tag = document.getElementById('w-delta-tag');
+    tag.className = 'weight-delta ' + (need <= 0 ? 'ok' : (perDay > 0.15 ? 'over' : ''));
+    tag.textContent = need <= 0 ? '✓ 目標到達' : `あと -${need.toFixed(1)}kg`;
+  } else if (cw && days <= 0) {
+    document.getElementById('w-perday').textContent = '試合期';
+    const tag = document.getElementById('w-delta-tag');
+    tag.textContent = `${cw.toFixed(1)}kg`;
+    tag.className = 'weight-delta';
+  } else {
+    document.getElementById('w-perday').textContent = '--';
+    document.getElementById('w-delta-tag').textContent = '体重未記録';
+  }
+
+  // history
+  const hist = document.getElementById('w-history');
+  hist.innerHTML = logs.slice().reverse().slice(0, 14).map(l => {
+    const diff = l.weight - TARGET_WEIGHT;
+    return `<div>${fmtDate(l.date)} ・ ${l.weight.toFixed(1)}kg <span style="color:${diff > 0 ? '#8b3a3a' : '#4a7a3a'}">(${diff > 0 ? '+' : ''}${diff.toFixed(1)})</span></div>`;
+  }).join('');
+
+  drawWeightChart(logs);
+}
+function drawWeightChart(logs) {
+  const canvas = document.getElementById('w-chart');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const w = canvas.clientWidth;
+  const h = canvas.clientHeight;
+  canvas.width = w * dpr; canvas.height = h * dpr;
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, w, h);
+
+  if (logs.length < 1) {
+    ctx.fillStyle = '#9a8e7c'; ctx.font = '12px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('体重を記録すると推移グラフが表示されます', w/2, h/2);
+    return;
+  }
+
+  const startDate = '2026-04-23';
+  const endDate = MATCH_DATE;
+  const totalDays = dayDiff(startDate, endDate);
+  const minW = TARGET_WEIGHT - 0.5;
+  const maxW = Math.max(START_WEIGHT + 0.5, ...logs.map(l => l.weight)) + 0.3;
+
+  const padX = 40, padY = 16;
+  const innerW = w - padX - 12, innerH = h - padY - 24;
+
+  const xAt = d => padX + (dayDiff(startDate, d) / totalDays) * innerW;
+  const yAt = wt => padY + ((maxW - wt) / (maxW - minW)) * innerH;
+
+  // target line
+  ctx.strokeStyle = '#b8893a'; ctx.setLineDash([4,4]); ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(padX, yAt(TARGET_WEIGHT)); ctx.lineTo(w-12, yAt(TARGET_WEIGHT)); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#b8893a'; ctx.font = '10px sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText(`目標 ${TARGET_WEIGHT}kg`, padX, yAt(TARGET_WEIGHT) - 4);
+
+  // ideal line (start->target by match day)
+  ctx.strokeStyle = '#9a8e7c'; ctx.setLineDash([2,3]); ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(xAt(startDate), yAt(START_WEIGHT)); ctx.lineTo(xAt(endDate), yAt(TARGET_WEIGHT)); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // match day marker
+  ctx.strokeStyle = '#8b3a3a'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(xAt(endDate), padY); ctx.lineTo(xAt(endDate), padY+innerH); ctx.stroke();
+  ctx.fillStyle = '#8b3a3a'; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+  ctx.fillText('5/17', xAt(endDate)-2, padY+10);
+
+  // today marker
+  const today = todayStr();
+  if (today >= startDate && today <= endDate) {
+    ctx.strokeStyle = '#2d1b4e'; ctx.lineWidth = 1; ctx.setLineDash([1,2]);
+    ctx.beginPath(); ctx.moveTo(xAt(today), padY); ctx.lineTo(xAt(today), padY+innerH); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // weight line
+  if (logs.length >= 1) {
+    ctx.strokeStyle = '#2d1b4e'; ctx.lineWidth = 2;
+    ctx.beginPath();
+    logs.forEach((l, i) => {
+      const x = xAt(l.date), y = yAt(l.weight);
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+    // dots
+    ctx.fillStyle = '#2d1b4e';
+    logs.forEach(l => {
+      ctx.beginPath(); ctx.arc(xAt(l.date), yAt(l.weight), 3, 0, Math.PI*2); ctx.fill();
+    });
+  }
+
+  // y-axis labels
+  ctx.fillStyle = '#9a8e7c'; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+  ctx.fillText(maxW.toFixed(1), padX-4, padY+8);
+  ctx.fillText(minW.toFixed(1), padX-4, padY+innerH);
+  // x-axis labels
+  ctx.textAlign = 'center';
+  ['2026-04-23','2026-04-30','2026-05-07','2026-05-14','2026-05-17'].forEach(d => {
+    if (dayDiff(startDate, d) >= 0 && dayDiff(d, endDate) >= 0) {
+      ctx.fillText(d.slice(5).replace('-','/'), xAt(d), h-6);
+    }
+  });
+}
+document.getElementById('w-save').addEventListener('click', () => {
+  const v = parseFloat(document.getElementById('w-input').value);
+  if (isNaN(v) || v < 40 || v > 120) { alert('体重を正しく入力してください'); return; }
+  const t = todayStr();
+  const idx = state.weightLogs.findIndex(l => l.date === t);
+  if (idx >= 0) state.weightLogs[idx].weight = v;
+  else state.weightLogs.push({ date: t, weight: v });
+  save();
+  document.getElementById('w-input').value = '';
+  renderWeight();
+  renderCountdown();
+});
+
+// ============= INJURY GUARD =============
+function getTodayGuard() {
+  const t = todayStr();
+  if (!state.guardChecks[t]) state.guardChecks[t] = {};
+  return state.guardChecks[t];
+}
+function renderGuard() {
+  const g = getTodayGuard();
+  document.getElementById('guard-list').innerHTML = GUARD_ITEMS.map((item, i) => `
+    <label>
+      <input type="checkbox" data-i="${i}" ${g[i] ? 'checked' : ''}>
+      <span>${item}</span>
+    </label>
+  `).join('');
+  document.querySelectorAll('#guard-list input').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const g = getTodayGuard();
+      g[cb.dataset.i] = cb.checked;
+      save();
+    });
+  });
+
+  // dynamic alert based on recent fatigue
+  const recent = state.practiceLogs.slice(-3);
+  const highFat = recent.some(p => p.fatigue >= 3);
+  const days = dayDiff(todayStr(), MATCH_DATE);
+  let html = '';
+  if (days <= 3 && days >= 0) {
+    html += `<div class="alert warn"><strong>5/15以降は新技ゼロ・足関節ゼロ</strong>残り${days}日。失敗＝ケガ＝試合NG。守りに入る勇気。</div>`;
+  }
+  if (highFat) {
+    html += `<div class="alert warn"><strong>疲労蓄積を検知</strong>直近の練習で疲労3以上。今日はシッティング開始 or テクニック練習中心に。突き指予防。</div>`;
+  }
+  if (days >= 0 && days <= 7) {
+    html += `<div class="alert"><strong>有酸素は心拍120台まで</strong>10日切ったら高強度有酸素はNG（CNS疲労・グリコーゲン消費）。20-30分ジョグ＋モビリティが上限。</div>`;
+  }
+  document.getElementById('guard-alert').innerHTML = html;
+}
+
+// ============= PRACTICE LOG =============
+let pSelectedFatigue = 2;
+document.getElementById('p-fatigue').querySelectorAll('button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    pSelectedFatigue = parseInt(btn.dataset.level);
+    document.querySelectorAll('#p-fatigue .fatigue-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+function setDefaultFatigue() {
+  document.querySelectorAll('#p-fatigue .fatigue-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.level) === pSelectedFatigue);
+  });
+}
+function renderPractice() {
+  document.getElementById('p-date').value = todayStr();
+  setDefaultFatigue();
+  const list = document.getElementById('p-list');
+  const items = state.practiceLogs.slice().sort((a,b) => b.date.localeCompare(a.date) || (b.id || 0) - (a.id || 0)).slice(0, 30);
+  list.innerHTML = items.map(p => `
+    <div class="practice-item">
+      <div class="practice-item-head">
+        <div class="practice-date">${fmtDate(p.date)}</div>
+        <button class="btn-danger" data-id="${p.id}">削除</button>
+      </div>
+      <div class="practice-tags">
+        <span class="tag gym">${escapeHtml(p.gym)}</span>
+        <span class="tag">${escapeHtml(p.classType)}</span>
+        <span class="tag fatigue-${p.fatigue}">疲労${p.fatigue}</span>
+      </div>
+      ${p.tech ? `<div class="practice-text"><strong>技:</strong> ${escapeHtml(p.tech)}</div>` : ''}
+      ${p.spar ? `<div class="practice-text" style="margin-top:4px;"><strong>スパー:</strong> ${escapeHtml(p.spar)}</div>` : ''}
+    </div>
+  `).join('') || '<div class="text-muted">記録なし</div>';
+
+  list.querySelectorAll('.btn-danger').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!confirm('この記録を削除しますか？')) return;
+      const id = parseInt(btn.dataset.id);
+      state.practiceLogs = state.practiceLogs.filter(p => p.id !== id);
+      save();
+      renderPractice();
+      renderGuard();
+    });
+  });
+}
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+document.getElementById('p-save').addEventListener('click', () => {
+  const date = document.getElementById('p-date').value;
+  const gym = document.getElementById('p-gym').value;
+  const classType = document.getElementById('p-class').value;
+  const tech = document.getElementById('p-tech').value.trim();
+  const spar = document.getElementById('p-spar').value.trim();
+  if (!date) { alert('日付を入力してください'); return; }
+  state.practiceLogs.push({
+    id: Date.now(),
+    date, gym, classType,
+    fatigue: pSelectedFatigue,
+    tech, spar
+  });
+  save();
+  document.getElementById('p-tech').value = '';
+  document.getElementById('p-spar').value = '';
+  renderPractice();
+  renderGuard();
+});
+
+// ============= MATCH PLAN TABS =============
+document.querySelectorAll('.plan-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const t = tab.dataset.tab;
+    document.querySelectorAll('.plan-tab').forEach(x => x.classList.toggle('active', x.dataset.tab === t));
+    document.querySelectorAll('.plan-content').forEach(x => x.classList.toggle('active', x.dataset.tab === t));
+  });
+});
+
+// ============= DATA EXPORT/IMPORT =============
+document.getElementById('export-btn').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `cup-coach-${todayStr()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+});
+document.getElementById('import-btn').addEventListener('click', () => {
+  document.getElementById('import-file').click();
+});
+document.getElementById('import-file').addEventListener('change', (e) => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (!confirm('現在のデータを上書きします。よろしいですか？')) return;
+      state = Object.assign({ drillCounts:{}, practiceLogs:[], weightLogs:[], guardChecks:{} }, data);
+      save();
+      renderAll();
+    } catch (err) { alert('読み込みに失敗しました: ' + err.message); }
+  };
+  reader.readAsText(f);
+});
+document.getElementById('reset-btn').addEventListener('click', () => {
+  if (!confirm('すべてのデータを削除しますか？この操作は元に戻せません')) return;
+  if (!confirm('本当に？')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  state = { drillCounts:{}, practiceLogs:[], weightLogs:[], guardChecks:{} };
+  renderAll();
+});
+
+// ============= INIT =============
+function renderAll() {
+  renderCountdown();
+  renderPhase();
+  renderDrills();
+  renderWeight();
+  renderGuard();
+  renderPractice();
+}
+load();
+renderAll();
+
+// re-draw chart on resize
+window.addEventListener('resize', () => {
+  const logs = state.weightLogs.slice().sort((a,b) => a.date.localeCompare(b.date));
+  drawWeightChart(logs);
+});
+</script>
+
+</body>
+</html>
