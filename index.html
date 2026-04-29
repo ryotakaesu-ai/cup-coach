@@ -290,7 +290,7 @@ main { max-width: 760px; margin: 0 auto; padding: 0 16px 100px; }
   <div class="weight-now">
     <div>
       <div class="weight-num"><span id="w-current">--</span><span class="weight-unit">kg</span></div>
-      <div class="weight-target">目標 68.2kg / 試合日まで <span id="w-perday">--</span></div>
+      <div class="weight-target">目標 <span id="w-target">--</span>kg / 試合日まで <span id="w-perday">--</span></div>
     </div>
     <div id="w-delta-tag" class="weight-delta">--</div>
   </div>
@@ -479,8 +479,11 @@ main { max-width: 760px; margin: 0 auto; padding: 0 16px 100px; }
 // ============= CONFIG =============
 const STORAGE_KEY = 'shojin-cup-coach-v1';
 const MATCH_DATE = '2026-05-17';
-const TARGET_WEIGHT = 68.2;
-const START_WEIGHT = 71.0;
+const TARGET_WEIGHT = 67.5;
+const START_WEIGHT = 72.0;
+const SEED_WEIGHT_LOGS = [
+  { date: '2026-04-21', weight: 72.0 }
+];
 
 const DRILLS = [
   { id: 'triangle', name: '三角→腕十字→オモプラ ABC', target: 10, note: 'クローズドからの白帯最強3連' },
@@ -538,6 +541,15 @@ function load() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) state = Object.assign(state, JSON.parse(raw));
   } catch (e) { console.warn('load failed', e); }
+  // Seed historical data points if missing (one-time merge)
+  let seeded = false;
+  for (const s of SEED_WEIGHT_LOGS) {
+    if (!state.weightLogs.some(l => l.date === s.date)) {
+      state.weightLogs.push({ date: s.date, weight: s.weight });
+      seeded = true;
+    }
+  }
+  if (seeded) save();
 }
 function save() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -672,6 +684,7 @@ function renderWeight() {
   const last = logs[logs.length-1];
   const cw = last ? last.weight : null;
   document.getElementById('w-current').textContent = cw ? cw.toFixed(1) : '--';
+  document.getElementById('w-target').textContent = TARGET_WEIGHT.toFixed(1);
 
   const days = dayDiff(todayStr(), MATCH_DATE);
   if (cw && days > 0) {
@@ -716,7 +729,7 @@ function drawWeightChart(logs) {
     return;
   }
 
-  const startDate = '2026-04-23';
+  const startDate = '2026-04-21';
   const endDate = MATCH_DATE;
   const totalDays = dayDiff(startDate, endDate);
   const minW = TARGET_WEIGHT - 0.5;
@@ -776,7 +789,7 @@ function drawWeightChart(logs) {
   ctx.fillText(minW.toFixed(1), padX-4, padY+innerH);
   // x-axis labels
   ctx.textAlign = 'center';
-  ['2026-04-23','2026-04-30','2026-05-07','2026-05-14','2026-05-17'].forEach(d => {
+  ['2026-04-21','2026-04-30','2026-05-07','2026-05-14','2026-05-17'].forEach(d => {
     if (dayDiff(startDate, d) >= 0 && dayDiff(d, endDate) >= 0) {
       ctx.fillText(d.slice(5).replace('-','/'), xAt(d), h-6);
     }
